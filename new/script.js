@@ -1,44 +1,3 @@
-
-
-//OUTRO OBJETO==============
-//Pega os valores do exercicio custom
-let CustomValueGetter = {
-
-    //Atributes -----
-
-    inspValue: 0,
-    PauseValue: 0, 
-    expV: 0,
-    ExpValue: 0,
-
-    
-    //Getter and Setter ----
-
-    setInspValue(){
-        this.InspValue = document.querySelector("#InspValue")
-    },
-    getInspValue(){    
-        return this.inspValue
-    },
-
-
-    setPauseValue(){
-        this.PauseValue = document.querySelector("#PauseValue")
-    },
-    getPauseValue(){
-        return this.PauseValue
-    },
-
-
-    setExpValue(){
-        this.ExpValue = document.querySelector("#ExpValue")
-    },
-    getExpValue(){
-        return this.ExpValue
-    }
-
-
-}
 //OUTRO OBJETO =============
 //Este cria os arrays dos segundos 
 //e pega os valores dos atributos
@@ -109,9 +68,45 @@ let SecondMaker = {
 
 }
 
+//OUTRO OBJETO==============
+//Pega os valores do exercicio custom
+let CustomValueGetter = {
+
+    //Atributes -----
+
+    inspValue: 0,
+    PauseValue: 0, 
+    expV: 0,
+    ExpValue: 0,
+
+    
+    //Getter and Setter ----
+
+    setInspValue(){
+        this.InspValue = document.querySelector("#InspValue")
+    },
+    getInspValue(){    
+        return this.inspValue
+    },
 
 
+    setPauseValue(){
+        this.PauseValue = document.querySelector("#PauseValue")
+    },
+    getPauseValue(){
+        return this.PauseValue
+    },
 
+
+    setExpValue(){
+        this.ExpValue = document.querySelector("#ExpValue")
+    },
+    getExpValue(){
+        return this.ExpValue
+    }
+
+
+}
 
 //OUTRO OBJETO ===============
 //Este define os atributos para os exercicios
@@ -256,7 +251,7 @@ let Cutdown = {
             object.innerText = String(Number(object.innerHTML)-1)
             if(Number(object.innerHTML) <= 0){
                     clearInterval(id)
-                    listener.function = 1
+                    listener.function = 2
             }
         }
     }
@@ -269,27 +264,69 @@ let Cutdown = {
 let listener = {
     status: "",
     function:1,
-    presentObj:SecondsSelector.Inspiracao,
-    FEnd(){
-        let listener = setInterval(checker, 1000)
-        function checker(){
-            console.log("oi")
-            let PresentFunction = this.function
-            let aObj = this.presentObj
-            switch (PresentFunction) {
-                case 1:
-                    Cutdown.SecondSubtract(aObj)
-                    break;
+    fstate:"loading",
+    presentObj:null,
+    globalChecker: {
+            //executa a função atual
+            exec(PresentFunction, PresentObject){
+                switch (PresentFunction) {
+                    case 1:
+                        Cutdown.SecondSubtract(PresentObject)
+    
+                        break;
+    
+                    case 2:
+                        Cutdown.SecondSubtract(PresentObject)
+    
+                        break;
+                    
+                    case 3:
+                        Cutdown.SecondSubtract(PresentObject)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+            },
             
-                default:
-                    break;
+            //cheka e setta a função atual
+            fChecker(){
+                let principalChecker = setInterval(checker, 1000)
+                function checker(){
+                    let aF = listener.function
+                    let fS = listener.fstate
+                    let aB = listener.presentObj
+                        if(fS = "finish"){
+                            switch (aF) {
+                                case 1:
+                                    listener.globalChecker.exec(2)
+                                    break;
+
+                                case 2:
+                                    listener.globalChecker.exec(3)
+                                    break;
+
+                                case 3:
+                                    //outra coisa
+                                    break;    
+
+                                default:
+                                    listener.globalChecker.exec(1)
+
+                                    break;
+                            }
+                        }
+                   
+                }
+
+                //limpa o setinterval ao clickar em "pare"
+                if(listener.status == "close"){
+                    clearInterval(principalChecker)
+                }
             }
-        }
-        checker()
-        //limpa o setinterval ao clickar em "pare"
-        if(this.status == "close"){
-            clearInterval(listener)
-        }
+           
+        
     }
 }
 //Carrega as funções necessárias para o funcionamento do programa
@@ -297,13 +334,15 @@ LoadFunction = function(){
     Exercicios.Selector()
     //Trocar os parametros por nomes menores.
     SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao)
-    listener.FEnd()
+    listener.globalChecker.exec()
+    listener.globalChecker.fChecker()
 
 }
    
 LoadFunction()
 
 
+console.log(listener.function)
 
 
 
