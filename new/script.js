@@ -123,9 +123,9 @@ let Exercicios = {
     //Atributes ----
     Default: {
         ExercName:"Default",
-        Inspiracao: 5,
-        Pausa: 5,
-        Expiracao: 20,
+        Inspiracao: 1,
+        Pausa: 1,
+        Expiracao: 2,
         RepeatNumber: 5
     },
 
@@ -247,10 +247,10 @@ let SecondsSelector = {
     //Methods ------
     //Troca o valor da inspiração, expiração e pause
     Changer(Value, Value2, Value3){
-        this.Inspiracao.innerText = Value
-        this.Pause.innerText = Value2
-        this.Expiracao.innerText = Value3
-        
+        this.Inspiracao.innerText = String(Value)
+        this.Pause.innerText = String(Value2)
+        this.Expiracao.innerText = String(Value3)
+
     },
 }
 
@@ -262,10 +262,11 @@ let Cutdown = {
         function Subtract(object){
             object.innerText = String(Number(object.innerHTML)-1)
             if(Number(object.innerHTML) <= 0){
-                    clearInterval(interval)
-                    SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao)
-                    listener.function = listener.function +1
-                    listener.fstate = "finish"
+                //reseta os valores e passa para a proxima etapa
+                clearInterval(interval)
+                SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao)
+                listener.function = listener.function +1
+                listener.fstate = "finish"
             }
         }
     }
@@ -287,12 +288,18 @@ let listener = {
 
     //qual quadro está sendo diminuido (insp, segurar ou expirar)
     presentObj:"0",
+
+    //Em qual repetição está
+    repeatNumber: 0,
     globalChecker: {
         //executa a função atual
         exec(PresentFunction, PresentObject){
             //Dependendo da função atual, vai rodar o cronometro
             if (PresentFunction >= 4){
-                listener.globalChecker.somador()
+                listener.function = 1
+                let rNumber = listener.repeatNumber 
+                rNumber++
+                console.log(rNumber)
             }
             else{
                 listener.fstate = "loading"
@@ -336,10 +343,6 @@ let listener = {
             if(listener.status == "close"){
                 clearInterval(principalChecker)
             }
-        },
-        somador(){
-            listener.function = 1
-            
         }
     
     //endglobalchecker
