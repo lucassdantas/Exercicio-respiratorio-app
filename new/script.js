@@ -78,6 +78,7 @@ let CustomValueGetter = {
     PauseValue: 0, 
     expV: 0,
     ExpValue: 0,
+    RepeatNumber: 0,
 
     
     //Getter and Setter ----
@@ -103,6 +104,13 @@ let CustomValueGetter = {
     },
     getExpValue(){
         return this.ExpValue
+    },
+    
+    setRepeatValue(){
+        this.repeatNumber = document.querySelector("#RepeatNumber")
+    },
+    getRepeatValue(){
+        return this.RepeatNumber
     }
 
 
@@ -117,14 +125,17 @@ let Exercicios = {
         ExercName:"Default",
         Inspiracao: 5,
         Pausa: 5,
-        Expiracao: 20
+        Expiracao: 20,
+        RepeatNumber: 5
     },
 
     Exercicio01: {
         ExercName:"Exercicio 01",
         Inspiracao: 10,
         Pausa: 10,
-        Expiracao: 40
+        Expiracao: 40,
+        RepeatNumber: 6
+
     },
 
     Custom: {
@@ -132,6 +143,7 @@ let Exercicios = {
         Inspiracao: CustomValueGetter.InspValue,
         Pausa: CustomValueGetter.PauseValue,
         Expiracao: CustomValueGetter.ExpValue,
+        RepeatNumber: CustomValueGetter.RepeatNumber
     },
 
     Selected:"",
@@ -244,14 +256,14 @@ let SecondsSelector = {
 
 let Cutdown = {
     //Methods
-    //Conta do valor do objeto passado até 0
+    //Conta do valor do objeto passado até 0 e exibe
     SecondSubtract(object){
-        let id = setInterval(Subtract, 1000, object)
+        let interval = setInterval(Subtract, 1000, object)
         function Subtract(object){
             object.innerText = String(Number(object.innerHTML)-1)
             if(Number(object.innerHTML) <= 0){
-                    clearInterval(id)
-                    listener.function = 2
+                    clearInterval(interval)
+                    listener.function = listener.function +1
             }
         }
     }
@@ -262,71 +274,83 @@ let Cutdown = {
 
 //Verifica se os contadores terminaram
 let listener = {
-    status: "",
+    //estado do programa
+    status: "close",
+    //função atual (inspiração, segurar ou expirar)
     function:1,
+    //estado da função(em andameno ou acabada)
     fstate:"loading",
+    //qual quadro está sendo diminuido (insp, segurar ou expirar)
     presentObj:null,
     globalChecker: {
-            //executa a função atual
-            exec(PresentFunction, PresentObject){
-                switch (PresentFunction) {
-                    case 1:
-                        Cutdown.SecondSubtract(PresentObject)
+        //executa a função atual
+        exec(PresentFunction, PresentObject){
+            //Dependendo da função atual, vai rodar o cronometro
+            switch (PresentFunction) {
+                case 1:
+                    Cutdown.SecondSubtract(PresentObject)
     
-                        break;
+                    break;
     
-                    case 2:
-                        Cutdown.SecondSubtract(PresentObject)
+                case 2:
+                    Cutdown.SecondSubtract(PresentObject)
     
-                        break;
+                    break;
                     
-                    case 3:
-                        Cutdown.SecondSubtract(PresentObject)
+                case 3:
+                    Cutdown.SecondSubtract(PresentObject)
     
-                        break;
+                    break;
     
-                    default:
-                        break;
-                }
-            },
-            
-            //cheka e setta a função atual
-            fChecker(){
-                let principalChecker = setInterval(checker, 1000)
-                function checker(){
-                    let aF = listener.function
-                    let fS = listener.fstate
-                    let aB = listener.presentObj
-                        if(fS = "finish"){
-                            switch (aF) {
-                                case 1:
-                                    listener.globalChecker.exec(2)
-                                    break;
-
-                                case 2:
-                                    listener.globalChecker.exec(3)
-                                    break;
-
-                                case 3:
-                                    //outra coisa
-                                    break;    
-
-                                default:
-                                    listener.globalChecker.exec(1)
-
-                                    break;
-                            }
-                        }
-                   
-                }
-
-                //limpa o setinterval ao clickar em "pare"
-                if(listener.status == "close"){
-                    clearInterval(principalChecker)
-                }
+                default:
+                    break;
             }
-           
-        
+        },
+            
+        //cheka e setta a função atual
+        fChecker(){
+            let principalChecker = setInterval(checker, 1000)
+            function checker(){
+                let aF = listener.function
+                let fS = listener.fstate
+                let aB = listener.presentObj
+                if(fS = "finish"){
+                    switch (aF) {
+                        case 1:
+                            aB = SecondsSelector.Pause
+                            listener.globalChecker.exec(2)
+                            listener.fstate = "loading"
+                            break;
+
+                        case 2:
+                            aB = SecondsSelector.Expiracao
+                            listener.globalChecker.exec(3)
+                            listener.fstate = "loading"
+
+                            break;
+
+                        case 3:
+                            listener.globalChecker.exec(3)
+                            break;    
+
+                        default:
+                            aB = SecondsSelector.Inspiracao
+                            listener.globalChecker.exec(1)
+                            listener.fstate = "loading"
+
+
+                            break;
+                    }
+                }   
+            }
+
+            //limpa o setinterval ao clickar em "pare"
+            if(listener.status == "close"){
+                clearInterval(principalChecker)
+            }
+        }
+    
+    //endglobalchecker
     }
 }
 //Carrega as funções necessárias para o funcionamento do programa
