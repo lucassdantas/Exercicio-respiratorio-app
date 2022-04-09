@@ -246,7 +246,17 @@ let SecondsSelector = {
     
     //Methods ------
     //Troca o valor da inspiração, expiração e pause
-    Changer(Value, Value2, Value3){
+    Changer(Value, Value2, Value3, rN){
+        switch (rN) {
+            case 1:
+                Value2++
+                Value3++
+                console.log(Value2)
+                break;
+        
+            default:
+                break;
+        }
         this.Inspiracao.innerText = String(Value)
         this.Pause.innerText = String(Value2)
         this.Expiracao.innerText = String(Value3)
@@ -264,8 +274,7 @@ let Cutdown = {
             if(Number(object.innerHTML) <= 0){
                 //reseta os valores e passa para a proxima etapa
                 clearInterval(interval)
-                SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao)
-                listener.function = listener.function +1
+                listener.function++
                 listener.fstate = "finish"
             }
         }
@@ -295,16 +304,13 @@ let listener = {
         //executa a função atual
         exec(PresentFunction, PresentObject){
             //Dependendo da função atual, vai rodar o cronometro
-            if (PresentFunction >= 4){
-                listener.function = 1
+            
                 let rNumber = listener.repeatNumber 
-                rNumber++
+                listener.globalChecker.somador(rNumber, PresentFunction)
                 console.log(rNumber)
-            }
-            else{
                 listener.fstate = "loading"
                 Cutdown.SecondSubtract(PresentObject)
-            }
+            
             
         },
             
@@ -343,6 +349,15 @@ let listener = {
             if(listener.status == "close"){
                 clearInterval(principalChecker)
             }
+        },
+
+        //soma os valores após o fim da sequencia
+        somador(rNumber, Presentfunction){
+            if (Presentfunction >= 4){
+            listener.function = 1
+            rNumber++
+            }
+            SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, rNumber)
         }
     
     //endglobalchecker
