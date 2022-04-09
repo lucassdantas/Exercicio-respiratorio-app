@@ -247,15 +247,11 @@ let SecondsSelector = {
     //Methods ------
     //Troca o valor da inspiração, expiração e pause
     Changer(Value, Value2, Value3, rN){
-        switch (rN) {
-            case 1:
-                Value2++
-                Value3++
-                console.log(Value2)
-                break;
-        
-            default:
-                break;
+        if (rN > 0){
+            
+            Value2++
+            Value3++
+            console.log(Value2+"ei")
         }
         this.Inspiracao.innerText = String(Value)
         this.Pause.innerText = String(Value2)
@@ -302,14 +298,10 @@ let listener = {
     repeatNumber: 0,
     globalChecker: {
         //executa a função atual
-        exec(PresentFunction, PresentObject){
+        exec(PresentObject){
             //Dependendo da função atual, vai rodar o cronometro
-            
-                let rNumber = listener.repeatNumber 
-                listener.globalChecker.somador(rNumber, PresentFunction)
-                console.log(rNumber)
-                listener.fstate = "loading"
-                Cutdown.SecondSubtract(PresentObject)
+            listener.fstate = "loading"
+            Cutdown.SecondSubtract(PresentObject)
             
             
         },
@@ -341,7 +333,10 @@ let listener = {
                         default:
                             break;
                     }
-                    listener.globalChecker.exec(aF, aB)
+                    listener.globalChecker.exec(aB)
+                    let rNumber = listener.repeatNumber 
+                    listener.globalChecker.somador(rNumber, aF)
+                    console.log(rNumber)
                 }   
             }
 
@@ -356,6 +351,7 @@ let listener = {
             if (Presentfunction >= 4){
             listener.function = 1
             rNumber++
+            console.log(rNumber+"oi")
             }
             SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, rNumber)
         }
@@ -388,6 +384,13 @@ listener.fstate = "finish"
 /*
 let button = document.querySelector("#ButtonInit")
 button.addEventListener("click", appInit)
+
+
+ANOTAÇÕES====
+FALLTA SOMAR VALOERS AO TERMINAR A REPETIÇÃO
+OBS: DEVO FAZER COM QUE OS VALORES PADRÕES VOLTEM
+ A SER 5, 5 E 20 (EU TROQUEI 
+    PARA QUE OS TESTES FIQUEM MAIS RÁPIDOS)
 */
 
 
