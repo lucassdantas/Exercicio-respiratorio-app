@@ -264,6 +264,8 @@ let Cutdown = {
             if(Number(object.innerHTML) <= 0){
                     clearInterval(interval)
                     listener.function = listener.function +1
+                    listener.fstate = "finish"
+                    console.log("oi")
             }
         }
     }
@@ -275,72 +277,55 @@ let Cutdown = {
 //Verifica se os contadores terminaram
 let listener = {
     //estado do programa
-    status: "close",
+    status: "running",
     //função atual (inspiração, segurar ou expirar)
-    function:1,
+    function:0,
     //estado da função(em andameno ou acabada)
     fstate:"loading",
     //qual quadro está sendo diminuido (insp, segurar ou expirar)
-    presentObj:null,
+    presentObj:"0",
     globalChecker: {
         //executa a função atual
         exec(PresentFunction, PresentObject){
             //Dependendo da função atual, vai rodar o cronometro
-            switch (PresentFunction) {
-                case 1:
-                    Cutdown.SecondSubtract(PresentObject)
-    
-                    break;
-    
-                case 2:
-                    Cutdown.SecondSubtract(PresentObject)
-    
-                    break;
-                    
-                case 3:
-                    Cutdown.SecondSubtract(PresentObject)
-    
-                    break;
-    
-                default:
-                    break;
+            if (PresentFunction >= 4){
+
             }
+            else{
+                listener.fstate = "loading"
+                Cutdown.SecondSubtract(PresentObject)
+            }
+            
         },
             
-        //cheka e setta a função atual
+        //cheka e setta a função, seu estado e objeto atual
         fChecker(){
             let principalChecker = setInterval(checker, 1000)
             function checker(){
                 let aF = listener.function
                 let fS = listener.fstate
                 let aB = listener.presentObj
-                if(fS = "finish"){
+                //verifica se a função acabou
+                //troca o bloco a ser contado 
+                //e executa o cronometro deste proximo bloco no "exec"
+                if(fS == "finish"){
                     switch (aF) {
                         case 1:
-                            aB = SecondsSelector.Pause
-                            listener.globalChecker.exec(2)
-                            listener.fstate = "loading"
+                            aB = SecondsSelector.Inspiracao 
                             break;
 
                         case 2:
-                            aB = SecondsSelector.Expiracao
-                            listener.globalChecker.exec(3)
-                            listener.fstate = "loading"
-
+                            aB = SecondsSelector.Pause  
                             break;
 
                         case 3:
-                            listener.globalChecker.exec(3)
+                            aB = SecondsSelector.Expiracao
                             break;    
 
                         default:
-                            aB = SecondsSelector.Inspiracao
-                            listener.globalChecker.exec(1)
-                            listener.fstate = "loading"
-
-
                             break;
                     }
+                    listener.globalChecker.exec(aF, aB)
                 }   
             }
 
@@ -353,20 +338,23 @@ let listener = {
     //endglobalchecker
     }
 }
+
+
 //Carrega as funções necessárias para o funcionamento do programa
 LoadFunction = function(){
     Exercicios.Selector()
     //Trocar os parametros por nomes menores.
     SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao)
-    listener.globalChecker.exec()
     listener.globalChecker.fChecker()
+    
 
 }
    
 LoadFunction()
+listener.function = 1
+listener.fstate = "finish"
 
 
-console.log(listener.function)
 
 
 
