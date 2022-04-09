@@ -256,16 +256,16 @@ let SecondsSelector = {
 
 let Cutdown = {
     //Methods
-    //Conta do valor do objeto passado até 0 e exibe
+    //Conta do valor do objeto passado até 0 e exibe 
     SecondSubtract(object){
         let interval = setInterval(Subtract, 1000, object)
         function Subtract(object){
             object.innerText = String(Number(object.innerHTML)-1)
             if(Number(object.innerHTML) <= 0){
                     clearInterval(interval)
+                    SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao)
                     listener.function = listener.function +1
                     listener.fstate = "finish"
-                    console.log("oi")
             }
         }
     }
@@ -278,10 +278,13 @@ let Cutdown = {
 let listener = {
     //estado do programa
     status: "running",
+
     //função atual (inspiração, segurar ou expirar)
     function:0,
+
     //estado da função(em andameno ou acabada)
     fstate:"loading",
+
     //qual quadro está sendo diminuido (insp, segurar ou expirar)
     presentObj:"0",
     globalChecker: {
@@ -289,7 +292,7 @@ let listener = {
         exec(PresentFunction, PresentObject){
             //Dependendo da função atual, vai rodar o cronometro
             if (PresentFunction >= 4){
-
+                listener.globalChecker.somador()
             }
             else{
                 listener.fstate = "loading"
@@ -300,7 +303,7 @@ let listener = {
             
         //cheka e setta a função, seu estado e objeto atual
         fChecker(){
-            let principalChecker = setInterval(checker, 1000)
+            let principalChecker = setInterval(checker, 0)
             function checker(){
                 let aF = listener.function
                 let fS = listener.fstate
@@ -333,6 +336,10 @@ let listener = {
             if(listener.status == "close"){
                 clearInterval(principalChecker)
             }
+        },
+        somador(){
+            listener.function = 1
+            
         }
     
     //endglobalchecker
@@ -351,8 +358,20 @@ LoadFunction = function(){
 }
    
 LoadFunction()
+function appInit(){
+    listener.function = 1
+    listener.fstate = "finish"
+    let button = document.querySelector("#ButtonInit")
+
+
+}
 listener.function = 1
 listener.fstate = "finish"
+/*
+let button = document.querySelector("#ButtonInit")
+button.addEventListener("click", appInit)
+*/
+
 
 
 
