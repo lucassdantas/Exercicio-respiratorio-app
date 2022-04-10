@@ -123,9 +123,9 @@ let Exercicios = {
     //Atributes ----
     Default: {
         ExercName:"Default",
-        Inspiracao: 1,
-        Pausa: 1,
-        Expiracao: 2,
+        Inspiracao: 5,
+        Pausa: 5,
+        Expiracao: 5,
         RepeatNumber: 5
     },
 
@@ -264,7 +264,6 @@ let Cutdown = {
     SecondSubtract(object){
         let interval = setInterval(Subtract, 1000, object)
         function Subtract(object){
-            console.log(object)
             object.innerText = String(Number(object.innerHTML)-1)
             if(Number(object.innerHTML) <= 0){
                 //reseta os valores e passa para a proxima etapa
@@ -389,20 +388,16 @@ function appInit(){
 
 
 }
-listener.function = 1
-listener.fstate = "finish"
-/*
 let button = document.querySelector("#ButtonInit")
 button.addEventListener("click", appInit)
 
-
+/*
 ANOTAÇÕES====
-FALLTA SOMAR VALOERS AO TERMINAR A REPETIÇÃO
+FALTA POR LIMITE PARA OS VALORES
 OBS: DEVO FAZER COM QUE OS VALORES PADRÕES VOLTEM
  A SER 5, 5 E 20 (EU TROQUEI 
     PARA QUE OS TESTES FIQUEM MAIS RÁPIDOS)
 */
-
 
 
 
