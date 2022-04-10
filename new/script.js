@@ -248,10 +248,8 @@ let SecondsSelector = {
     //Troca o valor da inspiração, expiração e pause
     Changer(Value, Value2, Value3, rN){
         if (rN > 0){
-            
-            Value2++
-            Value3++
-            console.log(Value2+"ei")
+            Value2 = Value2 +rN
+            Value3 = Value3 +rN
         }
         this.Inspiracao.innerText = String(Value)
         this.Pause.innerText = String(Value2)
@@ -266,6 +264,7 @@ let Cutdown = {
     SecondSubtract(object){
         let interval = setInterval(Subtract, 1000, object)
         function Subtract(object){
+            console.log(object)
             object.innerText = String(Number(object.innerHTML)-1)
             if(Number(object.innerHTML) <= 0){
                 //reseta os valores e passa para a proxima etapa
@@ -296,14 +295,19 @@ let listener = {
 
     //Em qual repetição está
     repeatNumber: 0,
+
     globalChecker: {
         //executa a função atual
-        exec(PresentObject){
+        exec(PresentObject, actualFunction){
             //Dependendo da função atual, vai rodar o cronometro
-            listener.fstate = "loading"
-            Cutdown.SecondSubtract(PresentObject)
-            
-            
+            if(actualFunction >= 4){
+                listener.fstate = "finish"
+            }
+            else{
+                listener.fstate = "loading"
+                Cutdown.SecondSubtract(PresentObject)
+                
+            }
         },
             
         //cheka e setta a função, seu estado e objeto atual
@@ -313,6 +317,7 @@ let listener = {
                 let aF = listener.function
                 let fS = listener.fstate
                 let aB = listener.presentObj
+                let rNumber = listener.repeatNumber 
                 //verifica se a função acabou
                 //troca o bloco a ser contado 
                 //e executa o cronometro deste proximo bloco no "exec"
@@ -333,11 +338,10 @@ let listener = {
                         default:
                             break;
                     }
-                    listener.globalChecker.exec(aB)
-                    let rNumber = listener.repeatNumber 
+                    listener.globalChecker.exec(aB, aF)
                     listener.globalChecker.somador(rNumber, aF)
-                    console.log(rNumber)
                 }   
+
             }
 
             //limpa o setinterval ao clickar em "pare"
@@ -351,13 +355,19 @@ let listener = {
             if (Presentfunction >= 4){
             listener.function = 1
             rNumber++
-            console.log(rNumber+"oi")
+            listener.setRepeatNumber(rNumber)
+            console.log(listener.repeatNumber)
             }
             SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, rNumber)
         }
     
     //endglobalchecker
+    },
+
+    setRepeatNumber(value){
+        this.repeatNumber = value
     }
+
 }
 
 
@@ -365,7 +375,7 @@ let listener = {
 LoadFunction = function(){
     Exercicios.Selector()
     //Trocar os parametros por nomes menores.
-    SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao)
+    SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, 0)
     listener.globalChecker.fChecker()
     
 
