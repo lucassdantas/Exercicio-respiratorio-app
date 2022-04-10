@@ -123,10 +123,10 @@ let Exercicios = {
     //Atributes ----
     Default: {
         ExercName:"Default",
-        Inspiracao: 5,
-        Pausa: 5,
-        Expiracao: 5,
-        RepeatNumber: 5
+        Inspiracao: 1,
+        Pausa: 1,
+        Expiracao: 2,
+        RepeatNumber: 2
     },
 
     Exercicio01: {
@@ -178,7 +178,7 @@ let Exercicios = {
                this.Selected = "none"
                break;
        }
-      
+        this.Selected = SelectV
         return SelectV
 
     },
@@ -313,14 +313,27 @@ let listener = {
         fChecker(){
             let principalChecker = setInterval(checker, 0)
             function checker(){
+                let Status = listener.status
                 let aF = listener.function
                 let fS = listener.fstate
                 let aB = listener.presentObj
                 let rNumber = listener.repeatNumber 
+                let rLimit = Exercicios.Selected.RepeatNumber
+                
+                //verifica se o limite de repetições
+                //foi atingido
+                if (rNumber >= rLimit){
+                    listener.status = "close"
+                }
+                //finaliza o cronometro
+                if(Status == "close"){
+                    clearInterval(principalChecker)
+                }
+
                 //verifica se a função acabou
                 //troca o bloco a ser contado 
                 //e executa o cronometro deste proximo bloco no "exec"
-                if(fS == "finish"){
+                if(fS == "finish" && Status != "close"){
                     switch (aF) {
                         case 1:
                             aB = SecondsSelector.Inspiracao 
@@ -335,31 +348,27 @@ let listener = {
                             break;    
 
                         default:
+                            listener.globalChecker.somador(rNumber, aF)
+
                             break;
                     }
                     listener.globalChecker.exec(aB, aF)
-                    listener.globalChecker.somador(rNumber, aF)
                 }   
+                
 
-            }
-
-            //limpa o setinterval ao clickar em "pare"
-            if(listener.status == "close"){
-                clearInterval(principalChecker)
             }
         },
 
         //soma os valores após o fim da sequencia
         somador(rNumber, Presentfunction){
             if (Presentfunction >= 4){
-            listener.function = 1
-            rNumber++
-            listener.setRepeatNumber(rNumber)
-            console.log(listener.repeatNumber)
+                console.log(Presentfunction)
+                listener.function = 1
+                rNumber++
+                listener.setRepeatNumber(rNumber)
             }
             SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, rNumber)
         }
-    
     //endglobalchecker
     },
 
