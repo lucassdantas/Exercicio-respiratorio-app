@@ -72,8 +72,6 @@
 }
 */
 
-let u
-
 //OUTRO OBJETO==============
 //Pega os valores do exercicio custom
 let CustomValueGetter = {
@@ -422,8 +420,16 @@ function appInit(){
     listener.status = "running"
     listener.globalChecker.fChecker()
 }
-let button = document.querySelector("#ButtonInit")
-button.addEventListener("click", appInit)
+function appStop(){
+    listener.status = "close"
+    listener.function = 0
+    listener.fstate = "loading"
+    SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao)
+}
+let buttonInit = document.querySelector("#ButtonInit")
+let buttonStop = document.querySelector("#ButtonStop")
+buttonInit.addEventListener("click", appInit)
+buttonStop.addEventListener("click", appStop)
 
 /*
 ANOTAÇÕES====
