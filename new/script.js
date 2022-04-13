@@ -127,7 +127,7 @@ let Exercicios = {
     //Atributes ----
     Default: {
         ExercName:"Default",
-        Inspiracao: 1,
+        Inspiracao: 2,
         Pausa: 1,
         Expiracao: 2,
         RepeatNumber: 2
@@ -234,7 +234,7 @@ let Exercicios = {
         return this.Selector().Inspiracao
     },
     getPauseValue(){
-        return this.Selector().Pause
+        return this.Selector().Pausa
     },
     getExpValue(){
         return this.Selector().Expiracao
@@ -271,9 +271,11 @@ let Cutdown = {
     //Methods
     //Conta do valor do objeto passado até 0 e exibe 
     SecondSubtract(object){
-        
         let interval = setInterval(Subtract, 1000, object)
-        function Subtract(object){
+        let checker = setInterval(Checker, 0, interval)
+        //checa se o app está finalizado
+        //e reseta os valores caso esteja
+        function Checker(interval){
             if(listener.status == "close"){
                 clearInterval(interval)
                 listener.setRepeatNumber(0)
@@ -281,15 +283,19 @@ let Cutdown = {
                 listener.fstate = "loading"
                 listener.presentObj = "0"
                 SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao)
-            }else{
+                clearInterval(checker)
+            }
+        }
+        function Subtract(object){
                 object.innerText = String(Number(object.innerHTML)-1)
                 if(Number(object.innerHTML) <= 0){
                     //reseta os valores e passa para a proxima etapa
                     clearInterval(interval)
+                    
                     listener.function++
                     listener.fstate = "finish"
                 }
-            }
+            
         }
     }
 
@@ -322,6 +328,7 @@ let listener = {
             //Dependendo da função atual, vai rodar o cronometro
             if(actualFunction >= 4){
                 listener.fstate = "finish"
+                Cutdown.Secondsubtract
             }
             else{
                 listener.fstate = "loading"
@@ -333,7 +340,7 @@ let listener = {
             
         //cheka e setta a função, seu estado e objeto atual
         fChecker(){
-            let principalChecker = setInterval(checker, 01)
+            let principalChecker = setInterval(checker, 00)
             function checker(){
                 let Status = listener.status
                 let aF = listener.function
@@ -344,6 +351,7 @@ let listener = {
                 //finaliza o cronometro se o app for parado
                 if(Status == "close"){
                     clearInterval(principalChecker)
+
                 }
                 //soma as repetições e verifica se estas atingiram o limite
                 listener.globalChecker.somador(rNumber, aF)
@@ -425,12 +433,12 @@ let app = {
         listener.presentObj = "0"
         listener.status = "running"
         listener.globalChecker.fChecker()
-        this.ShowOrHide()
+        app.ShowOrHide()
 
     },
     appStop(){
         listener.status = "close"
-        this.ShowOrHide()
+        app.ShowOrHide()
         
     },
     ShowOrHide(){
@@ -457,8 +465,6 @@ buttonStop.addEventListener("click", app.appStop)
 
 /*
 ANOTAÇÕES====
-TENTAR FAZER O DADO DAS FUNÇÕOES NÃO ENTRAR NO IF
-
 OBS: DEVO FAZER COM QUE OS VALORES PADRÕES VOLTEM
  A SER 5, 5 E 20 (EU TROQUEI 
     PARA QUE OS TESTES FIQUEM MAIS RÁPIDOS)
