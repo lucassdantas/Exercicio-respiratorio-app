@@ -1,10 +1,12 @@
 /*GENERAL ----GENERAL -----*/
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap');
 *{
     padding:0;
     margin:0;
     box-sizing:border-box;
 }
 body{
+    font-family: 'Lato', sans-serif;
     width:100vw;
     height:100vh;
     overflow-x:hidden;
@@ -29,7 +31,7 @@ header{
     
     justify-content:center;
 
-    margin:0 0 50px 0;
+    margin:0 0 0% 0;
 
     width:100%;
 
@@ -46,11 +48,18 @@ header{
     
     width:100%;
 
-    margin: 0 0 80px 0;
+    margin: 0 0 1% 0;
+    /*tirar isso dps*/
+    display:none;
+    visibility:hidden;
 }
 .CustomDiv{
     margin:10px 0;
     display:grid;
+
+    /*tirar isso dps*/
+    display:none;
+    visibility:hidden;
 }
 .CustomHidden{
     display:none;
