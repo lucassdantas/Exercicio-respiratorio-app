@@ -398,15 +398,17 @@ LoadFunction = function(){
     Exercicios.Selector()
     //Trocar os parametros por nomes menores.
     SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, 0)
-    listener.globalChecker.fChecker()
+    
     
 
 }
    
 LoadFunction()
 function appInit(){
+    listener.setRepeatNumber(0)
     listener.function = 1
     listener.fstate = "finish"
+    listener.globalChecker.fChecker()
     let button = document.querySelector("#ButtonInit")
 
 
