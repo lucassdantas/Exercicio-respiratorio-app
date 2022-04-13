@@ -275,9 +275,11 @@ let Cutdown = {
         let interval = setInterval(Subtract, 1000, object)
         function Subtract(object){
             if(listener.status == "close"){
+                clearInterval(interval)
                 listener.setRepeatNumber(0)
                 listener.function = 0
                 listener.fstate = "loading"
+                listener.presentObj = "0"
                 SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao)
             }else{
                 object.innerText = String(Number(object.innerHTML)-1)
@@ -326,26 +328,23 @@ let listener = {
                 Cutdown.SecondSubtract(PresentObject)
                 
             }
+            console.log(PresentObject)
         },
             
         //cheka e setta a função, seu estado e objeto atual
         fChecker(){
-            let principalChecker = setInterval(checker, 0)
+            let principalChecker = setInterval(checker, 01)
             function checker(){
                 let Status = listener.status
                 let aF = listener.function
                 let fS = listener.fstate
                 let aB = listener.presentObj
                 let rNumber = listener.repeatNumber 
-                let rLimit = Exercicios.Selected.RepeatNumber
-                console.log("oi")
-                console.log(listener.status)
-                
-                //finaliza o cronometro
+                let rLimit = Exercicios.Selected.RepeatNumber        
+                //finaliza o cronometro se o app for parado
                 if(Status == "close"){
                     clearInterval(principalChecker)
                 }
-
                 //soma as repetições e verifica se estas atingiram o limite
                 listener.globalChecker.somador(rNumber, aF)
 
@@ -363,6 +362,7 @@ let listener = {
                     //faz com que ele não rode mais funções
                     //se o app for finalizado
                     if (Status != "close"){
+                        //seleciona a bloco que será contrado do valor selecionado até 0  
                         switch (aF) {
                             case 1:
                                 aB = SecondsSelector.Inspiracao 
@@ -377,24 +377,19 @@ let listener = {
                                 break;    
     
                             default:
-                                
-    
                                 break;
                         }
+                        console.log()
+                        //executa a contagem no objeto selecionado do valor selecioando ate 0
                         listener.globalChecker.exec(aB, aF)
-
                     }
-                    
                 }   
-                
-
-            }
-        },
+            }//fim checker
+        },//fim fchecker
 
         //soma os valores após o fim da sequencia
         somador(rNumber, Presentfunction){
             if (Presentfunction >= 4){
-                console.log(Presentfunction)
                 listener.function = 1
                 rNumber++
                 listener.setRepeatNumber(rNumber)
@@ -427,6 +422,7 @@ let app = {
         listener.setRepeatNumber(0)
         listener.function = 1
         listener.fstate = "finish"
+        listener.presentObj = "0"
         listener.status = "running"
         listener.globalChecker.fChecker()
     },
