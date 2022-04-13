@@ -127,9 +127,9 @@ let Exercicios = {
     //Atributes ----
     Default: {
         ExercName:"Default",
-        Inspiracao: 5,
-        Pausa: 5,
-        Expiracao: 20,
+        Inspiracao: 1,
+        Pausa: 2,
+        Expiracao: 4,
         RepeatNumber: 4
     },
 
@@ -431,6 +431,7 @@ let app = {
     //seta os valores necessários para 
     //o inicio da aplicação
     appInit(){
+        //inicia o cronometro
         listener.setRepeatNumber(0)
         listener.function = 1
         listener.fstate = "finish"
@@ -441,11 +442,14 @@ let app = {
 
     },
     appStop(){
+        //finaliza o cronometro
         listener.status = "close"
         app.ShowOrHide()
         
     },
     ShowOrHide(){
+        //exibe o botão de parar caso esteja oculto
+        //ou ocula caso esteja sendo exibido
         let buttonInit = document.querySelector("#ButtonInit")
         let buttonStop = document.querySelector("#ButtonStop")
         if (buttonStop.classList.value.indexOf("hidden") >= 0){
