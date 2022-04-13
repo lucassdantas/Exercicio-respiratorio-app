@@ -320,7 +320,8 @@ let listener = {
                 let aB = listener.presentObj
                 let rNumber = listener.repeatNumber 
                 let rLimit = Exercicios.Selected.RepeatNumber
-                
+                console.log("oi")
+                console.log(listener.status)
                 
                 //finaliza o cronometro
                 if(Status == "close"){
@@ -408,6 +409,7 @@ function appInit(){
     listener.setRepeatNumber(0)
     listener.function = 1
     listener.fstate = "finish"
+    listener.status = "running"
     listener.globalChecker.fChecker()
     let button = document.querySelector("#ButtonInit")
 
@@ -418,7 +420,8 @@ button.addEventListener("click", appInit)
 
 /*
 ANOTAÇÕES====
-FALTA POR LIMITE PARA OS VALORES
+TENTAR FAZER O DADO DAS FUNÇÕOES NÃO ENTRAR NO IF
+ERRO EM NÃO CONSEGUIR REINICIAR O APP
 OBS: DEVO FAZER COM QUE OS VALORES PADRÕES VOLTEM
  A SER 5, 5 E 20 (EU TROQUEI 
     PARA QUE OS TESTES FIQUEM MAIS RÁPIDOS)
