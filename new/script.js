@@ -425,10 +425,24 @@ let app = {
         listener.presentObj = "0"
         listener.status = "running"
         listener.globalChecker.fChecker()
+        this.ShowOrHide()
+
     },
     appStop(){
         listener.status = "close"
+        this.ShowOrHide()
         
+    },
+    ShowOrHide(){
+        let buttonInit = document.querySelector("#ButtonInit")
+        let buttonStop = document.querySelector("#ButtonStop")
+        if (buttonStop.classList.value.indexOf("hidden") >= 0){
+            buttonInit.classList.add("hidden")
+            buttonStop.classList.remove("hidden")
+        }else{
+            buttonInit.classList.remove("hidden")
+            buttonStop.classList.add("hidden")
+        }
     }
 
 }
