@@ -127,10 +127,10 @@ let Exercicios = {
     //Atributes ----
     Default: {
         ExercName:"Default",
-        Inspiracao: 2,
-        Pausa: 1,
-        Expiracao: 2,
-        RepeatNumber: 2
+        Inspiracao: 5,
+        Pausa: 5,
+        Expiracao: 20,
+        RepeatNumber: 4
     },
 
     Exercicio01: {
@@ -158,6 +158,8 @@ let Exercicios = {
         //pelo usuario
        let Select = document.querySelector("#SelectExerc").value
        let SelectV 
+       //faz o "selected" receber os valores do exercicio ecsolhido
+       //pelo usuario
        switch (Select) {
 
             case "Padrão":
@@ -272,7 +274,7 @@ let Cutdown = {
     //Conta do valor do objeto passado até 0 e exibe 
     SecondSubtract(object){
         let interval = setInterval(Subtract, 1000, object)
-        let checker = setInterval(Checker, 0, interval)
+        let checker = setInterval(Checker, 01, interval)
         //checa se o app está finalizado
         //e reseta os valores caso esteja
         function Checker(interval){
@@ -283,22 +285,19 @@ let Cutdown = {
                 listener.fstate = "loading"
                 listener.presentObj = "0"
                 SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao)
-                clearInterval(checker)
+                clearInterval(checker)   
             }
         }
         function Subtract(object){
-                object.innerText = String(Number(object.innerHTML)-1)
-                if(Number(object.innerHTML) <= 0){
-                    //reseta os valores e passa para a proxima etapa
-                    clearInterval(interval)
-                    
-                    listener.function++
-                    listener.fstate = "finish"
-                }
-            
+            object.innerText = String(Number(object.innerHTML)-1)
+            if(Number(object.innerHTML) <= 0){
+                //reseta os valores e passa para a proxima etapa
+                clearInterval(interval)
+                listener.function++
+                listener.fstate = "finish"
+            }  
         }
     }
-
 }
 
 //OUTRO OBJETO========================
@@ -326,21 +325,22 @@ let listener = {
         //executa a função atual
         exec(PresentObject, actualFunction){
             //Dependendo da função atual, vai rodar o cronometro
+            //Muda o estado da função atual, fazendo com que 
+            //o codigo leia o "finish" sem ter que executar o
+            //secondsubtract
             if(actualFunction >= 4){
                 listener.fstate = "finish"
-                Cutdown.Secondsubtract
             }
             else{
                 listener.fstate = "loading"
                 Cutdown.SecondSubtract(PresentObject)
                 
             }
-            console.log(PresentObject)
         },
             
         //cheka e setta a função, seu estado e objeto atual
         fChecker(){
-            let principalChecker = setInterval(checker, 00)
+            let principalChecker = setInterval(checker, 0)
             function checker(){
                 let Status = listener.status
                 let aF = listener.function
@@ -348,9 +348,12 @@ let listener = {
                 let aB = listener.presentObj
                 let rNumber = listener.repeatNumber 
                 let rLimit = Exercicios.Selected.RepeatNumber        
-                //finaliza o cronometro se o app for parado
+                //finaliza o cronometro e faz o botão de iniciar aparecer 
+                //se o app for parado
                 if(Status == "close"){
                     clearInterval(principalChecker)
+                    buttonInit.classList.remove("hidden")
+                    buttonStop.classList.add("hidden")
 
                 }
                 //soma as repetições e verifica se estas atingiram o limite
@@ -387,7 +390,7 @@ let listener = {
                             default:
                                 break;
                         }
-                        console.log()
+                       
                         //executa a contagem no objeto selecionado do valor selecioando ate 0
                         listener.globalChecker.exec(aB, aF)
                     }
@@ -395,14 +398,15 @@ let listener = {
             }//fim checker
         },//fim fchecker
 
-        //soma os valores após o fim da sequencia
+        //soma os valores de repetição após o fim da sequencia
+        
         somador(rNumber, Presentfunction){
             if (Presentfunction >= 4){
                 listener.function = 1
                 rNumber++
                 listener.setRepeatNumber(rNumber)
+                //o changer soma os valores escolhidos com o numero da repetição
                 SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, rNumber)
-
             }
         }
     //endglobalchecker
@@ -465,6 +469,8 @@ buttonStop.addEventListener("click", app.appStop)
 
 /*
 ANOTAÇÕES====
+
+COLOCAR M NOME MAIS CURTO PARA OS PARAMETROS DO CHANGER
 OBS: DEVO FAZER COM QUE OS VALORES PADRÕES VOLTEM
  A SER 5, 5 E 20 (EU TROQUEI 
     PARA QUE OS TESTES FIQUEM MAIS RÁPIDOS)
