@@ -330,32 +330,39 @@ let listener = {
                 //verifica se a função acabou
                 //troca o bloco a ser contado 
                 //e executa o cronometro deste proximo bloco no "exec"
-               
-                if(fS == "finish" && Status != "close"){
-                     //verifica se o limite de repetições
+                listener.globalChecker.somador(rNumber, aF)
+                if(fS == "finish"){
+        
+                    //verifica se o limite de repetições
                     //foi atingido
                     if (rNumber >= rLimit){
                         listener.status = "close"
                     }
-                    switch (aF) {
-                        case 1:
-                            aB = SecondsSelector.Inspiracao 
-                            break;
+                    //faz com que ele não rode mais funç~çoes
+                    //se o app for finalizado
+                    if (Status != "close"){
+                        switch (aF) {
+                            case 1:
+                                aB = SecondsSelector.Inspiracao 
+                                break;
+    
+                            case 2:
+                                aB = SecondsSelector.Pause  
+                                break;
+    
+                            case 3:
+                                aB = SecondsSelector.Expiracao
+                                break;    
+    
+                            default:
+                                
+    
+                                break;
+                        }
+                        listener.globalChecker.exec(aB, aF)
 
-                        case 2:
-                            aB = SecondsSelector.Pause  
-                            break;
-
-                        case 3:
-                            aB = SecondsSelector.Expiracao
-                            break;    
-
-                        default:
-                            listener.globalChecker.somador(rNumber, aF)
-
-                            break;
                     }
-                    listener.globalChecker.exec(aB, aF)
+                    
                 }   
                 
 
@@ -369,8 +376,9 @@ let listener = {
                 listener.function = 1
                 rNumber++
                 listener.setRepeatNumber(rNumber)
+                SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, rNumber)
+
             }
-            SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, rNumber)
         }
     //endglobalchecker
     },
