@@ -1,7 +1,10 @@
+
+/*NÃO UTILIZADO*/
 //OUTRO OBJETO =============
+
 //Este cria os arrays dos segundos 
 //e pega os valores dos atributos
-let SecondMaker = {
+/*let SecondMaker = {
 
     //Atributes ==========
 
@@ -67,6 +70,9 @@ let SecondMaker = {
 
 
 }
+*/
+
+let u
 
 //OUTRO OBJETO==============
 //Pega os valores do exercicio custom
@@ -280,6 +286,8 @@ let Cutdown = {
 //OUTRO OBJETO========================
 
 //Verifica se os contadores terminaram
+//Faz o programa parar quando o limite de repetições
+//é alcançado
 let listener = {
     //estado do programa
     status: "running",
@@ -405,15 +413,14 @@ LoadFunction = function(){
 }
    
 LoadFunction()
+//seta os valores necessários para 
+//o inicio da aplicação
 function appInit(){
     listener.setRepeatNumber(0)
     listener.function = 1
     listener.fstate = "finish"
     listener.status = "running"
     listener.globalChecker.fChecker()
-    let button = document.querySelector("#ButtonInit")
-
-
 }
 let button = document.querySelector("#ButtonInit")
 button.addEventListener("click", appInit)
@@ -421,7 +428,7 @@ button.addEventListener("click", appInit)
 /*
 ANOTAÇÕES====
 TENTAR FAZER O DADO DAS FUNÇÕOES NÃO ENTRAR NO IF
-ERRO EM NÃO CONSEGUIR REINICIAR O APP
+
 OBS: DEVO FAZER COM QUE OS VALORES PADRÕES VOLTEM
  A SER 5, 5 E 20 (EU TROQUEI 
     PARA QUE OS TESTES FIQUEM MAIS RÁPIDOS)

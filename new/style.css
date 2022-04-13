@@ -121,6 +121,24 @@ header{
     background-color:rgb(0, 255, 200); 
 }
 
+#ButtonStop{
+    font-size:2em;
+    border-width:2px;
+    border-style:solid;
+    background-color:rgb(3, 235, 235);
+    border-radius:20px;
+    padding:7px;
+    cursor:pointer;
+
+}
+#ButtonStop:hover{
+    background-color:aqua;
+}
+
+#ButtonStop:active{
+    background-color:rgb(0, 255, 200); 
+}
+
 #Footer{
     display:flex;
     flex-wrap:wrap;
