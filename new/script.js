@@ -327,18 +327,21 @@ let listener = {
                     clearInterval(principalChecker)
                 }
 
-                //verifica se a função acabou
+                //soma as repetições e verifica se estas atingiram o limite
+                listener.globalChecker.somador(rNumber, aF)
+
+                //verifica se a função acabou,
                 //troca o bloco a ser contado 
                 //e executa o cronometro deste proximo bloco no "exec"
-                listener.globalChecker.somador(rNumber, aF)
                 if(fS == "finish"){
         
                     //verifica se o limite de repetições
                     //foi atingido
                     if (rNumber >= rLimit){
                         listener.status = "close"
+                        aF = 0
                     }
-                    //faz com que ele não rode mais funç~çoes
+                    //faz com que ele não rode mais funções
                     //se o app for finalizado
                     if (Status != "close"){
                         switch (aF) {
