@@ -263,18 +263,30 @@ let SecondsSelector = {
     },
 }
 
+//OUTRO OBJETO ======
+//CONTA DO NÚMERO ESCOLHIDO ATÉ 0
+//SOMA 1 A FUNÇÃO NO LISTENER E ALTERA
+// O ESTADO DA FUNÇÃO PARA "FINISH"
 let Cutdown = {
     //Methods
     //Conta do valor do objeto passado até 0 e exibe 
     SecondSubtract(object){
+        
         let interval = setInterval(Subtract, 1000, object)
         function Subtract(object){
-            object.innerText = String(Number(object.innerHTML)-1)
-            if(Number(object.innerHTML) <= 0){
-                //reseta os valores e passa para a proxima etapa
-                clearInterval(interval)
-                listener.function++
-                listener.fstate = "finish"
+            if(listener.status == "close"){
+                listener.setRepeatNumber(0)
+                listener.function = 0
+                listener.fstate = "loading"
+                SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao)
+            }else{
+                object.innerText = String(Number(object.innerHTML)-1)
+                if(Number(object.innerHTML) <= 0){
+                    //reseta os valores e passa para a proxima etapa
+                    clearInterval(interval)
+                    listener.function++
+                    listener.fstate = "finish"
+                }
             }
         }
     }
@@ -400,36 +412,38 @@ let listener = {
 }
 
 
-//Carrega as funções necessárias para o funcionamento do programa
-LoadFunction = function(){
-    Exercicios.Selector()
-    //Trocar os parametros por nomes menores.
-    SecondsSelector.Changer(Exercicios.Default.Inspiracao, Exercicios.Default.Pausa, Exercicios.Default.Expiracao, 0)
-    
-    
+
+
+let app = {
+    //Carrega as funções necessárias para o funcionamento do programa
+    LoadFunction(){
+        Exercicios.Selector()
+        //Trocar os parametros por nomes menores.
+        SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao, 0)
+    },
+    //seta os valores necessários para 
+    //o inicio da aplicação
+    appInit(){
+        listener.setRepeatNumber(0)
+        listener.function = 1
+        listener.fstate = "finish"
+        listener.status = "running"
+        listener.globalChecker.fChecker()
+    },
+    appStop(){
+        listener.status = "close"
+        
+    }
 
 }
-   
-LoadFunction()
-//seta os valores necessários para 
-//o inicio da aplicação
-function appInit(){
-    listener.setRepeatNumber(0)
-    listener.function = 1
-    listener.fstate = "finish"
-    listener.status = "running"
-    listener.globalChecker.fChecker()
-}
-function appStop(){
-    listener.status = "close"
-    listener.function = 0
-    listener.fstate = "loading"
-    SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao)
-}
+
+
+
 let buttonInit = document.querySelector("#ButtonInit")
 let buttonStop = document.querySelector("#ButtonStop")
-buttonInit.addEventListener("click", appInit)
-buttonStop.addEventListener("click", appStop)
+app.LoadFunction()
+buttonInit.addEventListener("click", app.appInit)
+buttonStop.addEventListener("click", app.appStop)
 
 /*
 ANOTAÇÕES====
