@@ -246,6 +246,7 @@ let SecondsSelector = {
     
     //Methods ------
     //Troca o valor da inspiração, expiração e pause
+    //rN = repeatnumber
     Changer(Value, Value2, Value3, rN){
         if (rN > 0){
             Value2 = Value2 +rN
@@ -320,11 +321,7 @@ let listener = {
                 let rNumber = listener.repeatNumber 
                 let rLimit = Exercicios.Selected.RepeatNumber
                 
-                //verifica se o limite de repetições
-                //foi atingido
-                if (rNumber >= rLimit){
-                    listener.status = "close"
-                }
+                
                 //finaliza o cronometro
                 if(Status == "close"){
                     clearInterval(principalChecker)
@@ -333,7 +330,13 @@ let listener = {
                 //verifica se a função acabou
                 //troca o bloco a ser contado 
                 //e executa o cronometro deste proximo bloco no "exec"
+               
                 if(fS == "finish" && Status != "close"){
+                     //verifica se o limite de repetições
+                    //foi atingido
+                    if (rNumber >= rLimit){
+                        listener.status = "close"
+                    }
                     switch (aF) {
                         case 1:
                             aB = SecondsSelector.Inspiracao 
