@@ -185,7 +185,8 @@ let Exercicios = {
         }
         Exercicios.Selected = SelectV
         //Trocar os parametros por nomes menores.
-        SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao, 0)
+        listener.status = "close"
+        SecondsSelector.Changer(SelectV.Inspiracao, SelectV.Pausa, SelectV.Expiracao, 0)
        
         return SelectV
 
