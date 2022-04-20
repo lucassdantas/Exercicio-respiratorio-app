@@ -156,35 +156,37 @@ let Exercicios = {
     Selector(){
         //Verifica e retorna os valores do exercicio selecionado
         //pelo usuario
-       let Select = document.querySelector("#SelectExerc").value
-       let SelectV 
-       //faz o "selected" receber os valores do exercicio ecsolhido
-       //pelo usuario
-       switch (Select) {
+        let Select = document.querySelector("#SelectExerc").value //selectedIndex
+        let SelectV 
+       
+        //faz o "selected" receber os valores do exercicio ecsolhido
+        //pelo usuario
+        switch (Select) {
 
-            case "Padrão":
-                SelectV = this.Default
-                this.Selected = SelectV.ExercName.value
+                case "Padrão":
+                    SelectV = Exercicios.Default
+                    break;
+
+                case "Custom":
+                    SelectV = Exercicios.Custom
+
+                    //this.customVisibility()             
+                    break;
+            
+                case "1":
+                    SelectV = Exercicios.Exercicio01
+                    
+                    break;    
+
+            default:
+                SelectV = "oi"
+                
                 break;
-
-            case "Custom":
-                SelectV = this.Custom
-                console.log(SelectV.ExercName)
-                this.Selected = SelectV.ExercName.value
-                this.customVisibility()             
-                break;
-           
-            case "1":
-                SelectV = this.Exercicio01
-                this.Selected = SelectV.ExercName
-                break;    
-
-           default:
-               SelectV = undefined
-               this.Selected = "none"
-               break;
-       }
-        this.Selected = SelectV
+        }
+        Exercicios.Selected = SelectV
+        //Trocar os parametros por nomes menores.
+        SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao, 0)
+       
         return SelectV
 
     },
@@ -230,7 +232,10 @@ let Exercicios = {
         }
     },
 
-
+    //Setters ---
+    setSelected(Selected){
+        this.Selected = Selected
+    },
     //Getters ---
     getInspValue(){
         return this.Selector().Inspiracao
@@ -425,8 +430,7 @@ let app = {
     //Carrega as funções necessárias para o funcionamento do programa
     LoadFunction(){
         Exercicios.Selector()
-        //Trocar os parametros por nomes menores.
-        SecondsSelector.Changer(Exercicios.Selected.Inspiracao, Exercicios.Selected.Pausa, Exercicios.Selected.Expiracao, 0)
+        
     },
     //seta os valores necessários para 
     //o inicio da aplicação
@@ -464,13 +468,13 @@ let app = {
 }
 
 
-
+let selector = document.querySelector("#SelectExerc")
 let buttonInit = document.querySelector("#ButtonInit")
 let buttonStop = document.querySelector("#ButtonStop")
 app.LoadFunction()
+selector.addEventListener("change", Exercicios.Selector) 
 buttonInit.addEventListener("click", app.appInit)
 buttonStop.addEventListener("click", app.appStop)
-
 /*
 ANOTAÇÕES====
 
