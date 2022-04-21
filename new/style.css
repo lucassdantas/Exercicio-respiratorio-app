@@ -1,5 +1,6 @@
 /*GENERAL ----GENERAL -----*/
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap');
+
 *{
     padding:0;
     margin:0;
@@ -26,6 +27,7 @@ a{
 /* MAIN --- MAIN ---*/
 .title{
     text-align:center;
+    font-size:2.5em;
 }
 header{
     display:flex;
@@ -45,8 +47,13 @@ header{
     
 }
 #SelectExercTitle{
-    font-weight:bold;
+    font-size:1.7em;
+    font-weight:700px;
     margin-bottom:3px;
+}
+select{
+font-size:1em;
+font-weight:500px;
 }
 
 #DivCustom{
@@ -191,7 +198,9 @@ header{
 
 @media (max-width:500px){
    #CutDownSection{
-       width:100%;
+        width:100%;
+        text-align:center;
+        
    }
     #InspiracaoDiv, #ExpiracaoDiv, #PausaDiv{
         font-size:10px;
@@ -209,14 +218,25 @@ header{
 
 
 @media (max-width:300px){
+    .title{
+        font-size:1.8em;
+    }
+    #SelectExercTitle{
+        font-size:1em;
+
+    }
+    select{
+        font-size:12px;
+    }
     #CutDownSection{
         flex-direction:column;
-        width:100%;
+        margin: 10% 0 5%;
         padding:0px;
     }
     #InspiracaoDiv, #ExpiracaoDiv, #PausaDiv{
+        width:110%;
         height:100px;
-        margin:0;
+        margin:5px 0;
         padding:0;
 
     }
