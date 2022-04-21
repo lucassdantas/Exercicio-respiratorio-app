@@ -74,51 +74,7 @@
 
 //OUTRO OBJETO==============
 //Pega os valores do exercicio custom
-let CustomValueGetter = {
 
-    //Atributes -----
-
-    inspValue: 0,
-    PauseValue: 0, 
-    expV: 0,
-    ExpValue: 0,
-    RepeatNumber: 0,
-
-    
-    //Getter and Setter ----
-
-    setInspValue(){
-        this.InspValue = document.querySelector("#InspValue")
-    },
-    getInspValue(){    
-        return this.inspValue
-    },
-
-
-    setPauseValue(){
-        this.PauseValue = document.querySelector("#PauseValue")
-    },
-    getPauseValue(){
-        return this.PauseValue
-    },
-
-
-    setExpValue(){
-        this.ExpValue = document.querySelector("#ExpValue")
-    },
-    getExpValue(){
-        return this.ExpValue
-    },
-    
-    setRepeatValue(){
-        this.repeatNumber = document.querySelector("#RepeatNumber")
-    },
-    getRepeatValue(){
-        return this.RepeatNumber
-    }
-
-
-}
 
 //OUTRO OBJETO ===============
 //Este define os atributos para os exercicios
@@ -127,9 +83,9 @@ let Exercicios = {
     //Atributes ----
     Default: {
         ExercName:"Default",
-        Inspiracao: 1,
-        Pausa: 2,
-        Expiracao: 4,
+        Inspiracao: 5,
+        Pausa: 5,
+        Expiracao: 20,
         RepeatNumber: 4
     },
 
@@ -140,14 +96,6 @@ let Exercicios = {
         Expiracao: 40,
         RepeatNumber: 6
 
-    },
-
-    Custom: {
-        ExercName:"Custom",
-        Inspiracao: CustomValueGetter.InspValue,
-        Pausa: CustomValueGetter.PauseValue,
-        Expiracao: CustomValueGetter.ExpValue,
-        RepeatNumber: CustomValueGetter.RepeatNumber
     },
 
     Selected:"",
@@ -162,15 +110,12 @@ let Exercicios = {
         //faz o "selected" receber os valores do exercicio ecsolhido
         //pelo usuario
         switch (Select) {
-
                 case "Padrão":
                     SelectV = Exercicios.Default
                     break;
 
                 case "Custom":
-                    SelectV = Exercicios.Custom
-
-                    //this.customVisibility()             
+                    SelectV = Exercicios.Custom            
                     break;
             
                 case "1":
@@ -184,12 +129,10 @@ let Exercicios = {
                 break;
         }
         Exercicios.Selected = SelectV
-        //Trocar os parametros por nomes menores.
         listener.status = "close"
         SecondsSelector.Changer(SelectV.Inspiracao, SelectV.Pausa, SelectV.Expiracao, 0)
        
         return SelectV
-
     },
 
     SelectRepeat(){
@@ -212,41 +155,6 @@ let Exercicios = {
         
         return RepeatNumber
     },
-
-    //Adiciona as opções para customizaçao
-    customVisibility(){
-        let CustomDiv = document.querySelectorAll(".Custom").classList
-
-        function customShow(Custom){
-            Custom.remove("CustomHidden")
-            console.log("oi")
-        }
-
-        function customHide(Custom){
-            Custom.add("CustomHidden")
-            console.log("ei")    
-        }    
-        if (this.Selected == "Custom"){
-            customShow(CustomDiv)
-        } else {
-            customHide(CustomDiv)
-        }
-    },
-
-    //Setters ---
-    setSelected(Selected){
-        this.Selected = Selected
-    },
-    //Getters ---
-    getInspValue(){
-        return this.Selector().Inspiracao
-    },
-    getPauseValue(){
-        return this.Selector().Pausa
-    },
-    getExpValue(){
-        return this.Selector().Expiracao
-    }
 }
 
 //OUTRO OBJETO ===============
@@ -260,6 +168,8 @@ let SecondsSelector = {
     //Troca o valor da inspiração, expiração e pause
     //rN = repeatnumber
     Changer(Value, Value2, Value3, rN){
+        //Faz os segundos ficarem com os valores
+        //passados
         if (rN > 0){
             Value2 = Value2 +rN
             Value3 = Value3 +rN
@@ -267,7 +177,6 @@ let SecondsSelector = {
         this.Inspiracao.innerText = String(Value)
         this.Pause.innerText = String(Value2)
         this.Expiracao.innerText = String(Value3)
-
     },
 }
 
@@ -476,14 +385,6 @@ app.LoadFunction()
 selector.addEventListener("change", Exercicios.Selector) 
 buttonInit.addEventListener("click", app.appInit)
 buttonStop.addEventListener("click", app.appStop)
-/*
-ANOTAÇÕES====
-
-COLOCAR M NOME MAIS CURTO PARA OS PARAMETROS DO CHANGER
-OBS: DEVO FAZER COM QUE OS VALORES PADRÕES VOLTEM
- A SER 5, 5 E 20 (EU TROQUEI 
-    PARA QUE OS TESTES FIQUEM MAIS RÁPIDOS)
-*/
 
 
 
