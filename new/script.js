@@ -346,6 +346,7 @@ let app = {
     //o inicio da aplicação
     appInit(){
         //inicia o cronometro
+        SecondsSelector.Inspiracao.innerText = String(Number(SecondsSelector.Inspiracao.innerHTML)-1)
         listener.setRepeatNumber(0)
         listener.function = 1
         listener.fstate = "finish"
@@ -370,6 +371,7 @@ let app = {
             buttonInit.classList.add("hidden")
             buttonStop.classList.remove("hidden")
         }else{
+
             buttonInit.classList.remove("hidden")
             buttonStop.classList.add("hidden")
         }
