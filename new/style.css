@@ -174,10 +174,10 @@ font-weight:500px;
     display:flex;
     flex-wrap:wrap;
     flex-direction:column;  
+    justify-content:center;
     
     text-align:center;
     
-    justify-content:center;
     width:100vw;
     height:150px;
     background-color:black;
